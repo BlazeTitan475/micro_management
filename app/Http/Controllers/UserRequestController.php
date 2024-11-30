@@ -32,7 +32,7 @@ class UserRequestController extends Controller
         $project->request_sent_at = now();
         $project->project_status = 'pending_client';
         $project->save();
-        logger('userrequest:::' . json_encode($userRequest));
+        logger('projectID:::' . json_encode($project->id));
         event(new OperatorRequestSent($userRequest, $project));
 
         // Optionally send a notification

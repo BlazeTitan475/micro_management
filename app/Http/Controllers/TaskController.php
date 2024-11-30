@@ -6,6 +6,8 @@ use App\Models\Task;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use App\Events\TaskSubmittedForReview;
+use Illuminate\Support\Carbon;
 
 class TaskController extends Controller
 {
@@ -59,5 +61,60 @@ class TaskController extends Controller
         $task->status = 'cancelled';
         $task->save();
         return response()->json(['message' => 'Task canceled!', 'status' => $task->status]);
+    }
+
+    public function underReview($taskId)
+    {
+        $task = Task::where('id', $taskId)->first();
+        $task->status = 'under_review';
+        $task->save();
+        event(new TaskSubmittedForReview($task));
+        return response()->json(['message' => 'Task is under Client\'s review', 'status' => $task->status]);
+    }
+
+    public function importTasks(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:txt|max:2048', // Validate the file
+        ]);
+
+        $file = $request->file('file');
+        $tasks = [];
+        $lineNumber = 1;
+
+        // Read the file line by line
+        $fileHandle = fopen($file, 'r');
+        while (($line = fgets($fileHandle)) !== false) {
+            if ($lineNumber === 1) {
+                // Skip the header row
+                $lineNumber++;
+                continue;
+            }
+
+            $data = explode("\t", trim($line)); // Split by tabs
+
+            if (count($data) !== 5) {
+                return back()->withErrors(['file' => "Invalid format on line $lineNumber."]);
+            }
+
+            $tasks[] = [
+                'title'       => $data[0],
+                'description' => $data[1],
+                'deadline'    => Carbon::parse($data[2]),
+                'priority'    => $data[3],
+                'assigned_to' => $data[4],
+                'created_at'  => now(),
+                'updated_at'  => now(),
+            ];
+
+            $lineNumber++;
+        }
+
+        fclose($fileHandle);
+
+        // Bulk insert tasks into the database
+        Task::insert($tasks);
+
+        return redirect()->back()->with('success', 'Tasks imported successfully.');
     }
 }

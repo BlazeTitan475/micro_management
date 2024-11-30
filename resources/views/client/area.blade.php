@@ -409,10 +409,11 @@
             cluster: 'us2', // Example: 'mt1'
             forceTLS: true,
         });
-
-        echo.channel('project')
+        // 
+        echo.channel('project.{{ $activeProjects[$currentProjectIndex]->id }}')
             .listen('OperatorRequestSent', (data) => {
                 console.log('New event received:', data);
+
                 // You can add your logic to handle the data
                 alert('new message ' + data);
             });

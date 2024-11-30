@@ -18,8 +18,8 @@ class TaskCompletedEvent implements ShouldBroadcast
      * Create a new event instance.
      * 
      */
-    
-     public $task;
+
+    public $task;
 
     public function __construct($task)
     {
@@ -35,7 +35,7 @@ class TaskCompletedEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('task'),
+            new Channel('project.' . $this->task->project->id),
         ];
     }
 }

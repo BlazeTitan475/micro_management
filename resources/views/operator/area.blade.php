@@ -61,6 +61,13 @@
                             📜 Daily Report
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#taskImportModal">
+                            Import Tasks
+                        </a>
+                    </li>
+
+
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -529,6 +536,35 @@
             </div>
         </div>
     </div>
+    <!-- Task Import Modal -->
+    <div class="modal fade" id="taskImportModal" tabindex="-1" aria-labelledby="taskImportModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="taskImportModalLabel">Import Tasks</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="taskImportForm" action="{{ route('tasks.import') }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="file" class="form-label">Upload Task File</label>
+                            <input type="file" name="file" id="file" class="form-control" required>
+                            <small class="form-text text-muted">
+                                Supported formats: .xlsx, .csv, .txt
+                            </small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" form="taskImportForm" class="btn btn-primary">Import</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -576,7 +612,15 @@
                 }
             });
         });
-
+        $('.complete-btn').click(function() {
+            const taskId = $(this).data('id');
+            $.post(`/tasks/${taskId}/under_review`, {
+                _token: '{{ csrf_token() }}'
+            }, function(response) {
+                alert(response.message);
+                location.reload(); // Reload page to reflect changes
+            });
+        });
         $(document).ready(function() {
             // Trigger modal opening and load content via AJAX
             $('#projectBriefingModal').on('show.bs.modal', function(event) {

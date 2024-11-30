@@ -74,6 +74,8 @@ Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store
 Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
 Route::post('/tasks/{task}/pause', [TaskController::class, 'pause'])->name('tasks.pause');
 Route::post('/tasks/{task}/cancel', [TaskController::class, 'cancel'])->name('tasks.cancel');
+Route::post('/tasks/{task}/under_review', [TaskController::class, 'underReview'])->name('tasks.under_review');
+Route::post('/tasks/import', [TaskController::class, 'importTasks'])->name('tasks.import');
 
 
 

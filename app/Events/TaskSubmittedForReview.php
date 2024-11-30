@@ -6,27 +6,20 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-// use App\Models\UserRequest;
 
-class OperatorRequestSent implements ShouldBroadcastNow
+class TaskSubmittedForReview
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-
-    public $userRequest;
-    public $project;
-
-    public function __construct($userRequest, $project)
+    public function __construct()
     {
         //
-        $this->userRequest = $userRequest;
-        $this->project = $project;
     }
 
     /**
@@ -34,10 +27,10 @@ class OperatorRequestSent implements ShouldBroadcastNow
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
-        logger('event.project.' . $this->project->id);
-        // 
-        return new Channel('project.' . $this->project->id);
+        return [
+            new PrivateChannel('channel-name'),
+        ];
     }
 }
