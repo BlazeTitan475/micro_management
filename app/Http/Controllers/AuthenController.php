@@ -91,10 +91,7 @@ class AuthenController extends Controller
     ///Logout
     public  function  logout()
     {
-        $data = array();
-        if (Session::has('loginId')) {
-            Session::pull('loginId');
-            return  redirect('view/login');
-        }
+        session()->flush();
+        return  redirect()->route('homepage');
     }
 }

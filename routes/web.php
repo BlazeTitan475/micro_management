@@ -15,7 +15,7 @@ use App\Exports\TasksExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 ///////////////////////Homepage///////////////////////
-Route::get('/', [PageController::class, 'index']);
+Route::get('/', [PageController::class, 'index'])->name('homepage');
 
 
 Route::get('/home', [PageController::class, 'index']);
@@ -24,7 +24,7 @@ Route::get('/home', [PageController::class, 'index']);
 //user login
 Route::get('/login/{userType}', [App\Http\Controllers\AuthenController::class, 'showLoginForm'])->name('view.login');
 Route::post('/login', [App\Http\Controllers\AuthenController::class, 'login'])->name('auth.login');
-Route::post('/logout', [App\Http\Controllers\AuthenController::class, 'logout'])->name('logout');
+Route::get('/logout', [App\Http\Controllers\AuthenController::class, 'logout'])->name('logout');
 
 
 //admin dashboard page
@@ -76,7 +76,7 @@ use App\Http\Controllers\TaskController;
 Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
 Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
 Route::post('/tasks/{task}/pause', [TaskController::class, 'pause'])->name('tasks.pause');
-Route::post('/tasks/{task}/cancel', [TaskController::class, 'cancel'])->name('tasks.cancel');
+Route::post('/tasks/{taskId}/cancel', [TaskController::class, 'cancel'])->name('tasks.cancel');
 Route::post('/tasks/{task}/under_review', [TaskController::class, 'underReview'])->name('tasks.under_review');
 Route::post('/tasks/import', [TaskController::class, 'importTasks'])->name('tasks.import');
 Route::get('/tasks/export', function () {

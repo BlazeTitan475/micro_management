@@ -69,7 +69,7 @@
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">🚪 Logout</a>
+                        <a class="nav-link" href={{ route('logout') }}>🚪 Logout</a>
                     </li>
                 </ul>
             </div>
@@ -87,7 +87,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    @stack('scripts') <!-- Additional scripts -->
+    {{-- @stack('scripts') <!-- Additional scripts --> --}}
 </body>
 
 </html>

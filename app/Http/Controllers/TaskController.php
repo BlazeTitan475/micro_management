@@ -23,7 +23,6 @@ class TaskController extends Controller
         ]);
 
         // Create the new task
-        logger('111111111111  ' . $request->task_deadline);
         $task = Task::create([
             'task_name' => $validated['task_name'],
             'task_description' => $validated['task_description'],
@@ -55,12 +54,14 @@ class TaskController extends Controller
         return response()->json(['message' => $message, 'status' => $task->status]);
     }
 
-    public function cancel($taskId)
+    public function cancel(Request $request, $taskId)
     {
+        logger('task cancel function entered');
+        if ($request->password !== 'password123')
+            return response()->json(['message' => 'Password is not match']);
         $task = Task::where('id', $taskId)->first();
-        $task->status = 'cancelled';
-        $task->save();
-        return response()->json(['message' => 'Task canceled!', 'status' => $task->status]);
+        $task->delete();
+        return response()->json(['success' => 'successfuly deleted']);
     }
 
     public function underReview($taskId)

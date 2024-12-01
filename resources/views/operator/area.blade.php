@@ -127,61 +127,32 @@
                             </thead>
                             <tbody>
                                 @foreach ($tasks as $task)
-                                    <tr>
+                                    <tr id="task-row-{{ $task->id }}">
                                         <td>{{ $task->task_name }}</td>
                                         <td>{{ $task->task_description }}</td>
                                         <td>
                                             @switch($task->task_priority)
                                                 @case('high')
-                                                    <span class="badge bg-danger">
-                                                        🔴
-                                                    @break
+                                                    <span class="badge bg-danger">🔴</span>
+                                                @break
 
-                                                    @case('medium')
-                                                        <span class="badge bg-warning">
-                                                            🟡
-                                                        @break
+                                                @case('medium')
+                                                    <span class="badge bg-warning">🟡</span>
+                                                @break
 
-                                                        @case('low')
-                                                            <span class="badge bg-success">
-                                                                🟢
-                                                            @break
-
-                                                            @default
-                                                        @endswitch
-                                                        {{ $task->task_priority }}
-                                                    </span>
+                                                @case('low')
+                                                    <span class="badge bg-success">🟢</span>
+                                                @break
+                                            @endswitch
+                                            {{ $task->task_priority }}
                                         </td>
                                         <td>
-                                            @if ($task->status === 'in_progress')
-                                                <span class="badge bg-primary">
-                                                    ⏳ In Progress
-                                                </span>
-                                            @elseif($task->status === 'completed')
-                                                <span class="badge bg-info">
-                                                    ✅ Completed
-                                                </span>
-                                            @elseif($task->status === 'under_review')
-                                                <span class="badge bg-info">
-                                                    ✅ Under Review
-                                                </span>
-                                            @elseif($task->status === 'cancelled')
-                                                <span class="badge bg-danger">
-                                                    ❌ cancelled
-                                                </span>
-                                            @elseif($task->status === 'overdue')
-                                                <span class="badge bg-danger">
-                                                    ❌ overdue
-                                                </span>
-                                            @elseif($task->status === 'paused')
-                                                <span class="badge bg-warning text-secondary">
-                                                    ⏸ Paused
-                                                </span>
-                                            @elseif($task->status === 'not_started')
-                                                <span class="badge bg-warning text-secondary">
-                                                    ⏸ Not started
-                                                </span>
-                                            @endif
+                                            <span
+                                                class="badge 
+            @if ($task->status === 'in_progress') bg-primary @elseif($task->status === 'completed') bg-info 
+            @elseif($task->status === 'cancelled' || $task->status === 'overdue') bg-danger @else bg-warning text-secondary @endif">
+                                                {{ ucwords(str_replace('_', ' ', $task->status)) }}
+                                            </span>
                                         </td>
                                         <td>{{ $task->task_deadline }}</td>
                                         <td>
@@ -192,13 +163,12 @@
                                                     data-id="{{ $task->id }}">⏸️</button>
                                                 <button class="btn btn-warning start-btn"
                                                     data-id="{{ $task->id }}">▶️</button>
-                                                <button class="btn btn-danger cancel-btn"
-                                                    data-id="{{ $task->id }}">❌</button>
+                                                <button class="btn btn-danger cancel-btn" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal" data-id="{{ $task->id }}">❌</button>
                                             </div>
                                         </td>
                                     </tr>
                                 @endforeach
-
                             </tbody>
                         </table>
                     </div>
@@ -503,6 +473,34 @@
             </div>
         </div>
     </div>
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this task? Please enter your password to confirm.</p>
+                    <input type="hidden" id="deleteTaskId" value="">
+                    <div class="mb-3">
+                        <label for="deletePassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="deletePassword"
+                            placeholder="Enter your password">
+                    </div>
+                    <div class="alert alert-danger d-none" id="passwordError"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -559,6 +557,7 @@
                 location.reload(); // Reload page to reflect changes
             });
         });
+
         $(document).ready(function() {
             // Trigger modal opening and load content via AJAX
             $('#projectBriefingModal').on('show.bs.modal', function(event) {
@@ -607,6 +606,83 @@
                 requests_show_all();
             });
         });
+        $(document).ready(function() {
+            // Handle Delete Modal Trigger
+            $('.cancel-btn').click(function() {
+                const taskId = $(this).data('id');
+                $('#deleteTaskId').val(taskId); // Set Task ID in Modal
+                $('#passwordError').addClass('d-none'); // Hide error
+            });
+
+            // Confirm Delete
+            $('#confirmDelete').click(function() {
+                const taskId = $('#deleteTaskId').val();
+                const password = $('#deletePassword').val();
+
+                $.ajax({
+                    url: `/tasks/${taskId}/cancel`, // Your delete route
+                    type: 'POST',
+                    data: {
+                        password: password,
+                        _token: '{{ csrf_token() }}' // Include CSRF token
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Task deleted successfully!');
+                            $(`#task-row-${taskId}`).remove(); // Remove row from table
+                            $('#deleteModal').modal('hide');
+                            $('.modal-backdrop').remove(); // Remove the backdrop
+                        } else {
+                            $('#passwordError').text(response.message).removeClass('d-none');
+                        }
+                    },
+                    error: function(xhr) {
+                        $('#passwordError').text('An error occurred. Please try again.')
+                            .removeClass('d-none');
+                    }
+                });
+            });
+
+            // Handle Complete Task
+            $('.complete-btn').click(function() {
+                const taskId = $(this).data('id');
+                updateTaskStatus(taskId, 'completed');
+            });
+
+            // Handle Pause Task
+            $('.pause-btn').click(function() {
+                const taskId = $(this).data('id');
+                updateTaskStatus(taskId, 'paused');
+            });
+
+            // Handle Start Task
+            $('.start-btn').click(function() {
+                const taskId = $(this).data('id');
+                updateTaskStatus(taskId, 'in_progress');
+            });
+
+            // Reusable Function for Status Updates
+            function updateTaskStatus(taskId, status) {
+                $.ajax({
+                    url: `/tasks/${taskId}/status`, // Your status update route
+                    type: 'PUT',
+                    data: {
+                        status: status,
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Task status updated!');
+                            location.reload(); // Reload the page or dynamically update the status badge
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Failed to update task status.');
+                    }
+                });
+            }
+        });
+
 
         function requests_show_all() {
             $.ajax({
