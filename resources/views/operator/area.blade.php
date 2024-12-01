@@ -236,9 +236,11 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <h3>💬 Client Communications</h3>
-                        <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#newCommunicationModal">
+                        <a class="btn btn-light btn-sm" href={{ route('communications.index') }}>
                             + New
-                        </button>
+                        </a>
+                        {{-- data-bs-toggle="modal"
+                        data-bs-target="#newCommunicationModal" --}}
                     </div>
                     <div class="card-body">
                         <div class="list-group" id="clientCommunicationsList">

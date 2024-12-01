@@ -169,3 +169,9 @@ Route::get('email_templates/{id}/edit', [EmailTemplateController::class, 'edit']
 Route::post('email_templates/create', [EmailTemplateController::class, 'create'])->name('admin.email_templates.create');
 Route::get('email_templates/showCreateForm', [EmailTemplateController::class, 'showCreateForm'])->name('admin.email_templates.showCreateForm');
 Route::post('email_templates/{id}/update', [EmailTemplateController::class, 'update'])->name('admin.email_templates.update');
+
+
+use App\Http\Controllers\CommunicationController;
+
+Route::get('/communications', [CommunicationController::class, 'index'])->name('communications.index');
+Route::post('/communications', [CommunicationController::class, 'store'])->name('communications.store');
