@@ -104,7 +104,10 @@ use App\Http\Controllers\SupportTicketController;
 
 Route::get('/operators_list', [SupportTicketController::class, 'getOperators'])->name('operators.list');
 Route::post('/supportsTickets/store', [SupportTicketController::class, 'store'])->name('tickets.store');
-Route::get('/supportsTickets/showAll', [SupportTicketController::class, 'showAll'])->name('tickets.show_all');
+Route::get('/supportsTickets/create', function () {
+    return view('tickets.create');
+})->name('tickets.create');
+Route::get('/supportsTickets/index', [SupportTicketController::class, 'showAll'])->name('tickets.index');
 
 
 

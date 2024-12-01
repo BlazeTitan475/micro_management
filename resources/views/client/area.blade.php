@@ -297,12 +297,12 @@
                                 </div>
                             </div>
                         @endforeach
-                        <div class="alert alert-info d-flex align-items-center">
+                        {{-- <div class="alert alert-info d-flex align-items-center">
                             <span class="emoji-badge">📬</span>
                             <div>
                                 <strong>New Communication:</strong> Clarification request from the client.
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 

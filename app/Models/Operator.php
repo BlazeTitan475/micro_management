@@ -22,4 +22,9 @@ class Operator extends Model
     {
         return $this->hasMany(DailyReport::class);
     }
+
+    public function attachments()
+    {
+        return $this->morphMany(FileAttachment::class, 'attachable');
+    }
 }

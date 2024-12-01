@@ -31,11 +31,12 @@ class SupportTicketController extends Controller
         logger('ticket.showAll function entered');
 
         $tickets = SupportTicket::get();
-        return response()->json([
-            'success' => true,
-            'message' => 'Requests fetched successfully.',
-            'data' => $tickets,
-        ]);
+        return view('tickets.index', compact('tickets'));
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Requests fetched successfully.',
+        //     'data' => $tickets,
+        // ]);
     }
 
     public function getOperators()
@@ -46,7 +47,7 @@ class SupportTicketController extends Controller
 
     public function index()
     {
-        $tickets = SupportTicket::where('client_id', auth()->id())->get();
+        $tickets = SupportTicket::where('client_id', session('client_id'))->get();
         return view('client.tickets.index', compact('tickets'));
     }
 

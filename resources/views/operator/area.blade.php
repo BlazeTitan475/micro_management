@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operator Area - Project Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+@extends('operator.layout')
+@section('content')
     <style>
         body {
             background-color: #f4f6f9;
@@ -26,60 +19,6 @@
             margin-right: 10px;
         }
     </style>
-</head>
-
-<body>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">🛠️ Operator Area</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#selectProjectModal">
-                            🗂️ Select Project
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="modal"
-                            data-bs-target="#projectBriefingModal">
-                            📋 Briefing
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link  open-work-diary" href="#" data-bs-toggle="modal"
-                            data-bs-target="#workDiaryModal">
-                            📜 Operation Log
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#dailyReportModal">
-                            📜 Daily Report
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#taskImportModal">
-                            Import Tasks
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('tasks.export') }}" class="nav-link">
-                            Export Tasks to XLS
-                        </a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">🚪 Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
     @if ($operator->missed_daily_report)
         <div class="alert alert-warning">
             😢 You missed submitting your daily report yesterday.
@@ -165,8 +104,7 @@
                     <div class="card-header">
                         <h3>📋 Ongoing Tasks</h3>
                         <div>
-                            <button class="btn btn-light btn-sm me-2" data-bs-toggle="modal"
-                                data-bs-target="#newTaskModal">
+                            <button class="btn btn-light btn-sm me-2" data-bs-toggle="modal" data-bs-target="#newTaskModal">
                                 + New Task
                             </button>
                             <button class="btn btn-info btn-sm" data-bs-toggle="modal"
@@ -298,8 +236,7 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <h3>💬 Client Communications</h3>
-                        <button class="btn btn-light btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#newCommunicationModal">
+                        <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#newCommunicationModal">
                             + New
                         </button>
                     </div>
@@ -380,7 +317,7 @@
                     </div>
                     <div class="card-body">
                         <div class="list-group" id="clientTicketsList">
-                            <a href="#" class="list-group-item list-group-item-action">
+                            <a href={{ route('tickets.index') }} class="list-group-item list-group-item-action">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">🔴 System Error</h5>
                                     <small class="text-muted">Closed</small>
@@ -417,8 +354,7 @@
     </div>
 
     <!-- New Task Modal -->
-    <div class="modal fade" id="newTaskModal" tabindex="-1" aria-labelledby="newTaskModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="newTaskModal" tabindex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -429,8 +365,7 @@
                     <!-- New Task Creation Form -->
                     <form action="{{ route('tasks.store') }}" method="POST">
                         @csrf
-                        <input type='hidden' value={{ $activeProjects[$currentProjectIndex]->id }}
-                            name='project_id'>
+                        <input type='hidden' value={{ $activeProjects[$currentProjectIndex]->id }} name='project_id'>
                         <div class="mb-3">
                             <label for="task_name" class="form-label">Task Name</label>
                             <input type="text" class="form-control" id="task_name" name="task_name" required>
@@ -452,8 +387,7 @@
 
                         <div class="mb-3">
                             <label for="task_deadline" class="form-label">Deadline</label>
-                            <input type="date" class="form-control" id="task_deadline" name="task_deadline"
-                                required>
+                            <input type="date" class="form-control" id="task_deadline" name="task_deadline" required>
                         </div>
 
                         <!-- Submit Button to Create Task -->
@@ -499,8 +433,7 @@
                     <!-- Form for submitting daily report -->
                     <form id="dailyReportForm" action="{{ route('operator.daily-report') }}" method="POST">
                         @csrf
-                        <input type='hidden' name='project_id'
-                            value='{{ $activeProjects[$currentProjectIndex]->id }}'>
+                        <input type='hidden' name='project_id' value='{{ $activeProjects[$currentProjectIndex]->id }}'>
                         <div class="mb-3">
                             <label for="report_content" class="form-label">Daily Update</label>
                             <textarea name="report_content" id="report_content" class="form-control" rows="5"
@@ -706,7 +639,4 @@
         }
         requests_show_all();
     </script>
-
-</body>
-
-</html>
+@endsection
