@@ -52,58 +52,22 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            {{-- <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <!-- User Management Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userManagementDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            User Management
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="userManagementDropdown">
-                            <li><a class="dropdown-item" href="{{ url('/admin/users') }}">User List</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/admin/roles') }}">Roles and Permissions</a></li>
-                        </ul>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.email_templates.index') }}">Email Templates</a>
                     </li>
 
-                    <!-- Project Management Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="projectManagementDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Project Management
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="projectManagementDropdown">
-                            <li><a class="dropdown-item" href="{{ url('/admin/projects/new') }}">New Project</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/admin/projects/active') }}">Active Projects</a>
-                            </li>
-                            <li><a class="dropdown-item" href="{{ url('/admin/projects/archive') }}">Archive
-                                    Projects</a></li>
-                        </ul>
-                    </li>
+                    <!-- Dropdown for specific template actions can be added here -->
 
-                    <!-- Reporting Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="reportingDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Reporting
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="reportingDropdown">
-                            <li><a class="dropdown-item" href="{{ url('/admin/reports/projects') }}">Project Reports</a>
-                            </li>
-                            <li><a class="dropdown-item" href="{{ url('/admin/reports/users') }}">User Reports</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/admin/reports/export') }}">Export Data</a></li>
-                        </ul>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href={{ route('logout') }}>🚪 Logout</a>
                     </li>
                 </ul>
-            </div> --}}
+            </div>
         </div>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.email_templates.index') }}">Email Templates</a>
-        </li>
-
-        <!-- Dropdown for specific template actions -->
-
     </nav>
 
     <!-- Main Content Area -->

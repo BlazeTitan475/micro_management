@@ -44,7 +44,7 @@
             </div>
         @else
             <div class="alert alert-info text-center">
-                No tickets found. Click "Create New Ticket" to get started!
+                No tickets found.
             </div>
         @endif
     </div>

@@ -214,13 +214,13 @@
                     </div>
                     <div class="card-body">
                         <div class="list-group" id="clientCommunicationsList">
-                            <a href="#" class="list-group-item list-group-item-action">
+                            <div href="#" class="list-group-item list-group-item-action">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">❓ Feature Clarification</h5>
                                     <small>🔵 Pending</small>
                                 </div>
                                 <p class="mb-1">Additional details about the reporting module</p>
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
