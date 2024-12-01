@@ -11,6 +11,9 @@ use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\AdminController;
+use App\Exports\TasksExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 ///////////////////////Homepage///////////////////////
 Route::get('/', [PageController::class, 'index']);
 
@@ -76,7 +79,9 @@ Route::post('/tasks/{task}/pause', [TaskController::class, 'pause'])->name('task
 Route::post('/tasks/{task}/cancel', [TaskController::class, 'cancel'])->name('tasks.cancel');
 Route::post('/tasks/{task}/under_review', [TaskController::class, 'underReview'])->name('tasks.under_review');
 Route::post('/tasks/import', [TaskController::class, 'importTasks'])->name('tasks.import');
-
+Route::get('/tasks/export', function () {
+    return Excel::download(new TasksExport, 'tasks.xlsx');
+})->name('tasks.export');
 
 
 
@@ -153,3 +158,11 @@ Route::get('/broadcast', function () {
 Route::get('/broadcast/index', function () {
     return view('chat');
 });
+
+use App\Http\Controllers\Admin\EmailTemplateController;
+
+Route::get('email_templates/index', [EmailTemplateController::class, 'index'])->name('admin.email_templates.index');
+Route::get('email_templates/{id}/edit', [EmailTemplateController::class, 'edit'])->name('admin.email_templates.edit');
+Route::post('email_templates/create', [EmailTemplateController::class, 'create'])->name('admin.email_templates.create');
+Route::get('email_templates/showCreateForm', [EmailTemplateController::class, 'showCreateForm'])->name('admin.email_templates.showCreateForm');
+Route::post('email_templates/{id}/update', [EmailTemplateController::class, 'update'])->name('admin.email_templates.update');

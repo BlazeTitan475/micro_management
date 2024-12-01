@@ -98,6 +98,12 @@
                 </ul>
             </div> --}}
         </div>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.email_templates.index') }}">Email Templates</a>
+        </li>
+
+        <!-- Dropdown for specific template actions -->
+
     </nav>
 
     <!-- Main Content Area -->

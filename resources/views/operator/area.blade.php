@@ -66,8 +66,11 @@
                             Import Tasks
                         </a>
                     </li>
-
-
+                    <li class="nav-item">
+                        <a href="{{ route('tasks.export') }}" class="nav-link">
+                            Export Tasks to XLS
+                        </a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
