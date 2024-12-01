@@ -51,7 +51,7 @@ class OperatorController extends Controller
         // $completed_tasks_count = Task::where('project_id', $currentProject->id)
         //     ->where('operator_id', $operatorId)->where('status', 'completed')->count();
         // $project_progress = $total_task_count == 0 ? 0 : $completed_tasks_count * 100 / $total_task_count;
-        logger('sdfsdfsdfsdf');
+
         return view('operator.area', compact('activeProjects', 'currentProjectIndex', 'tasks', 'operator'));
     }
 
@@ -88,7 +88,4 @@ class OperatorController extends Controller
         $admin = User::where('role', 'admin')->first();  // Get the administrator or project manager
         $admin->notify(new TaskCompletionNotification($task));
     }
-
-
-
 }

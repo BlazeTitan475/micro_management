@@ -12,3 +12,4 @@ Artisan::command('inspire', function () {
 // Schedule the check daily report command at 8:00 PM
 Schedule::command('check:daily-reports')->dailyAt('20:00');
 Schedule::command('check:client-response')->hourly();
+Schedule::command('tasks:check-missed-deadlines')->dailyAt('00:00');
