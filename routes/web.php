@@ -74,6 +74,7 @@ Route::get('projects/export', [ProjectController::class, 'exportProjects'])->nam
 use App\Http\Controllers\TaskController;
 
 Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');
+Route::post('/tasks/{task}/status', [TaskController::class, 'status'])->name('tasks.status');
 Route::post('/tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
 Route::post('/tasks/{task}/pause', [TaskController::class, 'pause'])->name('tasks.pause');
 Route::post('/tasks/{taskId}/cancel', [TaskController::class, 'cancel'])->name('tasks.cancel');

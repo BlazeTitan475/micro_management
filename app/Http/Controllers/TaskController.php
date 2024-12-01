@@ -73,6 +73,14 @@ class TaskController extends Controller
         return response()->json(['message' => 'Task is under Client\'s review', 'status' => $task->status]);
     }
 
+    public function status(Request $request, $taskId)
+    {
+        $task = Task::where('id', $taskId)->first();
+        $task->status = $request->status;
+        $task->save();
+        return response()->json(['success' => 'task status is changed!']);
+    }
+
     public function importTasks(Request $request)
     {
         $request->validate([

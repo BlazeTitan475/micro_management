@@ -13,3 +13,4 @@ Artisan::command('inspire', function () {
 Schedule::command('check:daily-reports')->dailyAt('20:00');
 Schedule::command('check:client-response')->hourly();
 Schedule::command('tasks:check-missed-deadlines')->dailyAt('00:00');
+Schedule::command('tasks:send-deadline-reminders')->dailyAt('08:00');

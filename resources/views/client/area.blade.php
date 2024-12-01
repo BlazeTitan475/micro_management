@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Area - Project Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+@extends('client.layout')
+@section('content')
     <style>
         body {
             background-color: #f4f6f9;
@@ -26,50 +19,9 @@
             margin-right: 10px;
         }
     </style>
-</head>
-
-<body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">🛠️ Client Area</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#selectProjectModal">
-                            🗂️ Select Project
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="modal"
-                            data-bs-target="#projectBriefingModal">
-                            📋 Briefing
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-bs-toggle="modal" id='open-work-diary'
-                            data-bs-target="#logOperationsModal">
-                            📜 Operation Log
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                            href="{{ route('daily-reports.index', $activeProjects[$currentProjectIndex]->id) }}">Daily
-                            Reports</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href={{ route('logout') }}>🚪 Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+
 
     <!-- Main Content -->
     <div class="mt-4 container-fluid">
@@ -252,14 +204,13 @@
                                 </div>
                                 <button class="btn btn-primary" data-bs-toggle="modal"
                                     onclick={{ $currentRequestId = $request->id }} data-bs-target="#responseModal"
-                                    data-request-id="{{ $request->id }}"
-                                    data-request-message="{{ $request->message }}">
+                                    data-request-id="{{ $request->id }}" data-request-message="{{ $request->message }}">
                                     Respond
                                 </button>
                             </div>
                             <!-- Response Modal -->
-                            <div class="modal fade" id="responseModal" tabindex="-1"
-                                aria-labelledby="responseModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModalLabel"
+                                aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -285,8 +236,8 @@
                                                     <label for="file" class="form-label">Attach File
                                                         (optional)
                                                     </label>
-                                                    <input class="shadow-sm form-control" type="file"
-                                                        id="file" name="file">
+                                                    <input class="shadow-sm form-control" type="file" id="file"
+                                                        name="file">
                                                 </div>
 
                                                 <button type="submit" class="btn btn-primary">Submit
@@ -476,7 +427,4 @@
             });
         });
     </script>
-
-</body>
-
-</html>
+@endsection

@@ -665,10 +665,10 @@
             function updateTaskStatus(taskId, status) {
                 $.ajax({
                     url: `/tasks/${taskId}/status`, // Your status update route
-                    type: 'PUT',
+                    type: 'POST',
                     data: {
                         status: status,
-                        _token: $('meta[name="csrf-token"]').attr('content')
+                        _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
                         if (response.success) {

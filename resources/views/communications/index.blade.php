@@ -1,4 +1,13 @@
-@extends('layouts.app')
+@php
+    $layout = 'admin.layout'; // Default layout
+    if (session('role') == 'operator') {
+        $layout = 'operator.layout';
+    } elseif (session('role') == 'client') {
+        $layout = 'client.layout';
+    }
+@endphp
+
+@extends($layout)
 
 @section('content')
     <div class="container">
